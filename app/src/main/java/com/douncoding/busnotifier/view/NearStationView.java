@@ -41,6 +41,16 @@ public class NearStationView extends RelativeLayout implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        //TODO 주변정류장 표시하는 맵 출력
+        if (onListener != null)
+            onListener.onContainerClick(view);
+    }
+
+    OnListener onListener;
+    public interface OnListener {
+        void onContainerClick(View view);
+    }
+
+    public void setOnListener(OnListener onListener) {
+        this.onListener = onListener;
     }
 }

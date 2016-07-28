@@ -1,5 +1,6 @@
 package com.douncoding.busnotifier.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.douncoding.busnotifier.R;
+import com.douncoding.busnotifier.activity.BaseActivity;
+import com.douncoding.busnotifier.activity.MapsActivity;
 import com.douncoding.busnotifier.view.BookmarkListView;
 import com.douncoding.busnotifier.view.NearStationView;
 import com.douncoding.busnotifier.view.RecentSearchLogView;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +46,15 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
+        // 주변 정류소 클릭
+        mNearStationView.setOnListener(new NearStationView.OnListener() {
+            @Override
+            public void onContainerClick(View view) {
+                BaseActivity baseActivity = (BaseActivity)getActivity();
+                baseActivity.mNavigator.navigateToMaps(baseActivity);
+            }
+        });
 
         return view;
     }
