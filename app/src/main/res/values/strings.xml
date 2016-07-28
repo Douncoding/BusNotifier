@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">BusNotifier</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="navigation_drawer_menu_favorites">즐겨찾기</string>
+    <string name="navigation_drawer_menu_route">노선</string>
+    <string name="navigation_drawer_menu_station">정류소</string>
+    <string name="navigation_drawer_menu_map">지도</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
