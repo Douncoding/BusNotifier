@@ -11,4 +11,5 @@
     <color name="colorPrimaryDark">#466594</color>
     <color name="colorAccent">#ED7982</color>
     <color name="divider">#B6B6B6</color>
+    <color name="white">#FFF</color>
 </resources>

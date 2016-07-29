@@ -73,6 +73,15 @@ public class BookmarkListView extends RelativeLayout {
         mAdapter.notifyDataSetChanged();
     }
 
+    OnListener onListener;
+    public interface OnListener {
+        void onItemClick(View view, Route route);
+    }
+
+    public void setOnListener(OnListener onListener) {
+        this.onListener = onListener;
+    }
+
     class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.DataHolder> {
 
         class DataHolder extends RecyclerView.ViewHolder implements PopupMenu.OnMenuItemClickListener {
@@ -85,8 +94,8 @@ public class BookmarkListView extends RelativeLayout {
             public DataHolder(View itemView) {
                 super(itemView);
 
-                mRouteNumber = (TextView)itemView.findViewById(R.id.route_number_txt);
-                mRouteDesc = (TextView)itemView.findViewById(R.id.route_desc_txt);
+                mRouteNumber = (TextView)itemView.findViewById(R.id.number_txt);
+                mRouteDesc = (TextView)itemView.findViewById(R.id.desc_txt);
                 mMoreButton = (ImageView)itemView.findViewById(R.id.route_more_btn);
 
                 // 추가기능 (팝업메뉴) 생성
@@ -98,6 +107,15 @@ public class BookmarkListView extends RelativeLayout {
                     @Override
                     public void onClick(View view) {
                         mPopupMenu.show();
+                    }
+                });
+
+                // 전체 클릭 -> 노선 세부정부
+                itemView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (onListener != null)
+                            onListener.onItemClick(view, mBookmarkList.get(getPosition()));
                     }
                 });
             }

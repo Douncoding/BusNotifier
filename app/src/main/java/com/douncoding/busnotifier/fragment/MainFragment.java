@@ -3,6 +3,7 @@ package com.douncoding.busnotifier.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.activity.BaseActivity;
 import com.douncoding.busnotifier.activity.MapsActivity;
+import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.view.BookmarkListView;
 import com.douncoding.busnotifier.view.NearStationView;
 import com.douncoding.busnotifier.view.RecentSearchLogView;
@@ -53,6 +55,15 @@ public class MainFragment extends BaseFragment {
             public void onContainerClick(View view) {
                 BaseActivity baseActivity = (BaseActivity)getActivity();
                 baseActivity.mNavigator.navigateToMaps(baseActivity);
+            }
+        });
+
+        // 즐겨찾기 노선 클릭
+        mBookmarkListView.setOnListener(new BookmarkListView.OnListener() {
+            @Override
+            public void onItemClick(View view, Route route) {
+                BaseActivity baseActivity = (BaseActivity)getActivity();
+                baseActivity.mNavigator.navigateToRoute(baseActivity);
             }
         });
 

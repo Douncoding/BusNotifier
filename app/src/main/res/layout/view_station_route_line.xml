@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="75dp"
+    android:layout_height="75dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentEnd="true">
+        <View
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/divider"/>
+
+        <ImageView
+            android:id="@+id/marker_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:tint="@color/divider"
+            android:src="@drawable/ic_bottom_arrow_line"/>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/divider"/>
+    </LinearLayout>
+</RelativeLayout>
