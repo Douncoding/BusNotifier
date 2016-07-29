@@ -54,7 +54,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onContainerClick(View view) {
                 BaseActivity baseActivity = (BaseActivity)getActivity();
-                baseActivity.mNavigator.navigateToMaps(baseActivity);
+                baseActivity.mNavigator.navigateToStation(baseActivity);
             }
         });
 
