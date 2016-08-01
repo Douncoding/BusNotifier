@@ -16,6 +16,7 @@ import com.douncoding.busnotifier.data.repository.RouteStationRepository;
 import com.douncoding.busnotifier.presenter.RouteContract;
 import com.douncoding.busnotifier.presenter.RoutePresenter;
 import com.douncoding.busnotifier.view.StationRouteView;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,14 +37,14 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
 
      RoutePresenter mPresenter;
 
-    public static final String EXTRA_ROUTE_NAME = "EXTRA_ROUTE_NAME";
-    public static Intent getCallingIntent(Context context ,String routeName) {
-        if (routeName == null) {
-            throw new IllegalArgumentException("노선이름을 입력해야 합니다.");
+    public static final String EXTRA_ROUTE = "EXTRA_ROUTE";
+    public static Intent getCallingIntent(Context context ,Route route) {
+        if (route == null) {
+            throw new IllegalArgumentException("Route 클래스를 찾을 수 없습니다");
         }
 
         Intent intent = new Intent(context, RouteActivity.class);
-        intent.putExtra(EXTRA_ROUTE_NAME, routeName);
+        intent.putExtra(EXTRA_ROUTE, route.toSerialize());
         return intent;
     }
 
@@ -55,11 +56,10 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
 
         // 비즈니스 로직 처리자 생성 및 초기화
         mPresenter = new RoutePresenter(
-                getIntent().getStringExtra(EXTRA_ROUTE_NAME),
+                new Gson().fromJson(getIntent().getStringExtra(EXTRA_ROUTE), Route.class),
                 this,
                 RouteRepository.getInstance(this),
                 RouteStationRepository.getInstance(this));
-        mPresenter.initialize();
 
         setSupportActionBar(mToolbar);
 

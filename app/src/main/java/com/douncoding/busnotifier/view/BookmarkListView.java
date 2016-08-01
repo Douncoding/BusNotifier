@@ -116,9 +116,9 @@ public class BookmarkListView extends RelativeLayout {
                     public void onClick(View view) {
                         Route route = mBookmarkList.get(getPosition());
 
-                        Navigator.navigateToRoute(
-                                BookmarkListView.this.getContext(),
-                                route.getRouteName());
+//                        Navigator.navigateToRoute(
+//                                BookmarkListView.this.getContext(),
+//                                route.getRouteName());
 
                         if (onListener != null)
                             onListener.onItemClick(view, route);

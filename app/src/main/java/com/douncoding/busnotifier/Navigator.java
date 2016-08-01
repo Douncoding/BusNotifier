@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.douncoding.busnotifier.activity.MapsActivity;
 import com.douncoding.busnotifier.activity.RouteActivity;
 import com.douncoding.busnotifier.activity.StationActivity;
+import com.douncoding.busnotifier.data.Route;
 
 /**
  * 액티비티 간의 이동을 관리하는 클래스
@@ -21,7 +22,7 @@ public class Navigator {
         }
     }
 
-    public static void navigateToRoute(Context context, String route) {
+    public static void navigateToRoute(Context context, Route route) {
         if (context != null) {
             Intent intent = RouteActivity.getCallingIntent(context, route);
             context.startActivity(intent);

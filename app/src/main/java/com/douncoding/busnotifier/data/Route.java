@@ -1,6 +1,7 @@
 package com.douncoding.busnotifier.data;
 
 import com.douncoding.busnotifier.data.repository.DatabaseContract;
+import com.google.gson.Gson;
 
 import java.util.StringTokenizer;
 
@@ -174,5 +175,9 @@ public class Route {
         }
 
         return builder.toString();
+    }
+
+    public String toSerialize() {
+        return new Gson().toJson(this);
     }
 }

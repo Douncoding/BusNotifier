@@ -34,7 +34,7 @@ public class RouteRepository extends BaseRepository<Route> {
      * @return 입력된 노선번호가 포함된 모든 노선 목록
      */
     public List<Route> findByLikeName(String routeName) {
-        String SELECT_SQL = String.format("SELECT * FROM %s WHERE %s LIKE \'%s%%\'",
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE %s = %s",
                 tableName, DatabaseContract.Route.ROUTE_NM, routeName);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(SELECT_SQL, null);

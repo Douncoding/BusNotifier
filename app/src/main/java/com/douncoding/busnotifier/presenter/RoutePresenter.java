@@ -1,5 +1,6 @@
 package com.douncoding.busnotifier.presenter;
 
+import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.data.repository.RouteStationRepository;
 
@@ -15,13 +16,13 @@ public class RoutePresenter implements RouteContract.Presenter {
     private final RouteStationRepository mRouteStationRepository;
 
     // 현재 처리중인 노선이름 변수
-    private String mRouteName;
+    private Route mRoute;
 
-    public RoutePresenter(String routeName,
+    public RoutePresenter(Route route,
                           RouteContract.View view,
                           RouteRepository routeRepository,
                           RouteStationRepository routeStationRepository) {
-        this.mRouteName = routeName;
+        this.mRoute = route;
         this.mRouteView = view;
         this.mRouteRepository = routeRepository;
         this.mRouteStationRepository = routeStationRepository;
@@ -44,21 +45,6 @@ public class RoutePresenter implements RouteContract.Presenter {
 
     @Override
     public void currentLocation() {
-
-    }
-
-    @Override
-    public void initialize() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void pause() {
 
     }
 }
