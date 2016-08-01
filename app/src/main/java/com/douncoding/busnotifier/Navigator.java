@@ -21,14 +21,14 @@ public class Navigator {
         }
     }
 
-    public void navigateToRoute(Context context) {
+    public static void navigateToRoute(Context context, String route) {
         if (context != null) {
-            Intent intent = RouteActivity.getCallingIntent(context);
+            Intent intent = RouteActivity.getCallingIntent(context, route);
             context.startActivity(intent);
         }
     }
 
-    public void navigateToStation(Context context) {
+    public static void navigateToStation(Context context) {
         if (context != null) {
             Intent intent = StationActivity.getCallingIntent(context);
             context.startActivity(intent);

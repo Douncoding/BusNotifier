@@ -58,14 +58,6 @@ public class MainFragment extends BaseFragment {
             }
         });
 
-        // 즐겨찾기 노선 클릭
-        mBookmarkListView.setOnListener(new BookmarkListView.OnListener() {
-            @Override
-            public void onItemClick(View view, Route route) {
-                BaseActivity baseActivity = (BaseActivity)getActivity();
-                baseActivity.mNavigator.navigateToRoute(baseActivity);
-            }
-        });
 
         return view;
     }

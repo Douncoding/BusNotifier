@@ -48,7 +48,7 @@ public class RouteRepository extends BaseRepository<Route> {
                             cursor.getColumnIndex(DatabaseContract.Route.ROUTE_ID)));
                     route.setRouteName(cursor.getString(
                             cursor.getColumnIndex(DatabaseContract.Route.ROUTE_NM)));
-                    route.setRouteType(cursor.getString(
+                    route.setRouteType(cursor.getInt(
                             cursor.getColumnIndex(DatabaseContract.Route.ROUTE_TP)));
                     route.setStartStationId(cursor.getInt(
                             cursor.getColumnIndex(DatabaseContract.Route.ST_STA_ID)));
@@ -72,8 +72,10 @@ public class RouteRepository extends BaseRepository<Route> {
                             cursor.getColumnIndex(DatabaseContract.Route.DOWN_LAST_TIME)));
                     route.setPeekAlloc(cursor.getString(
                             cursor.getColumnIndex(DatabaseContract.Route.PEEK_ALLOC)));
-                    route.setNonPeekAllooc(cursor.getString(
+                    route.setNonPeekAlloc(cursor.getString(
                             cursor.getColumnIndex(DatabaseContract.Route.NPEEK_ALLOC)));
+                    route.setRegionName(cursor.getString(
+                            cursor.getColumnIndex(DatabaseContract.Route.REGION_NAME)));
                     results.add(route);
                 } while (cursor.moveToNext());
             }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.Route;
 
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 /**
  * 즐겨찾기 목록
  *
- * TODO MVP
  */
 public class BookmarkListView extends RelativeLayout {
 
@@ -60,7 +60,7 @@ public class BookmarkListView extends RelativeLayout {
     private void test() {
         Route route = new Route();
         route.setRouteName("50");
-        route.setRouteType("경기 안성시 일반버스");
+        route.setRouteType(13);
 
         addBookmark(route);
         addBookmark(route);
@@ -94,8 +94,8 @@ public class BookmarkListView extends RelativeLayout {
             public DataHolder(View itemView) {
                 super(itemView);
 
-                mRouteNumber = (TextView)itemView.findViewById(R.id.number_txt);
-                mRouteDesc = (TextView)itemView.findViewById(R.id.desc_txt);
+                mRouteNumber = (TextView)itemView.findViewById(R.id.route_name_txt);
+                mRouteDesc = (TextView)itemView.findViewById(R.id.route_desc_txt);
                 mMoreButton = (ImageView)itemView.findViewById(R.id.route_more_btn);
 
                 // 추가기능 (팝업메뉴) 생성
@@ -114,8 +114,14 @@ public class BookmarkListView extends RelativeLayout {
                 itemView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Route route = mBookmarkList.get(getPosition());
+
+                        Navigator.navigateToRoute(
+                                BookmarkListView.this.getContext(),
+                                route.getRouteName());
+
                         if (onListener != null)
-                            onListener.onItemClick(view, mBookmarkList.get(getPosition()));
+                            onListener.onItemClick(view, route);
                     }
                 });
             }
@@ -150,7 +156,7 @@ public class BookmarkListView extends RelativeLayout {
 
             if (route != null) {
                 holder.mRouteNumber.setText(route.getRouteName());
-                holder.mRouteDesc.setText(route.getRouteType());
+                holder.mRouteDesc.setText(route.getDescription());
             }
         }
 

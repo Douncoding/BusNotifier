@@ -2,31 +2,39 @@ package com.douncoding.busnotifier.data;
 
 import com.douncoding.busnotifier.data.repository.DatabaseContract;
 
+import java.util.StringTokenizer;
+
 /**
  * 버스 노선 클래스
  * 아래항목 지원할 수 있는 모든 정보
  *
  * 필드정보 {@link DatabaseContract.Route} 참조
+ *
+ * 보다 올바른 설계는 데이터베이스에서 사용하는 모델과 비즈니스 로직에서 사용하는 모델을
+ * 분리해야 하지만, 구현의 편의상 하나의 모델로 정의한다.
  */
 public class Route {
-    int idRoute;
-    String routeType;
-    String routeName;
 
+    // 데이터베이스 호환형 변수
+    int idRoute;
+    int routeType;
+    String routeName;
     int startStationId;
     String startStationName;
     String startStationCode;
     int endStationId;
     String endStationName;
     String endStationCode;
-
     String upFirstTime;
     String upLastTime;
     String downFirstTime;
     String downLastTime;
-
     String peekAlloc;
-    String nonPeekAllooc;
+    String nonPeekAlloc;
+    String regionName;
+
+    // 변환형 변수
+    RouteType convertRouteType = new RouteType(this.routeType);
 
     public int getIdRoute() {
         return idRoute;
@@ -36,12 +44,13 @@ public class Route {
         this.idRoute = idRoute;
     }
 
-    public String getRouteType() {
+    public int getRouteType() {
         return routeType;
     }
 
-    public void setRouteType(String routeType) {
+    public void setRouteType(int routeType) {
         this.routeType = routeType;
+        convertRouteType.parseToType(this.routeType);
     }
 
     public String getRouteName() {
@@ -140,11 +149,30 @@ public class Route {
         this.peekAlloc = peekAlloc;
     }
 
-    public String getNonPeekAllooc() {
-        return nonPeekAllooc;
+    public String getNonPeekAlloc() {
+        return nonPeekAlloc;
     }
 
-    public void setNonPeekAllooc(String nonPeekAllooc) {
-        this.nonPeekAllooc = nonPeekAllooc;
+    public void setNonPeekAlloc(String nonPeekAlloc) {
+        this.nonPeekAlloc = nonPeekAlloc;
+    }
+
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder();
+
+        if (this.routeType != 0 && this.regionName != null) {
+            StringTokenizer tokenizer = new StringTokenizer(this.regionName, ",");
+            builder.append(tokenizer.nextToken()).append(" ").append(convertRouteType.getType());
+        }
+
+        return builder.toString();
     }
 }

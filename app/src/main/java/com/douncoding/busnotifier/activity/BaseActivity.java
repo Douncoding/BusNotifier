@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.douncoding.busnotifier.Navigator;
+import com.douncoding.busnotifier.presenter.BasePresenter;
 
 public class BaseActivity extends AppCompatActivity {
 
