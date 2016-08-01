@@ -22,7 +22,7 @@ import java.util.ArrayList;
  *
  * TODO 1.MVP 로컬 데이터 저장/읽기 등.. 영속성 처리
  */
-public class RecentSearchLogView extends RelativeLayout{
+public class RecentSearchLogView extends RelativeLayout {
 
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
@@ -33,6 +33,7 @@ public class RecentSearchLogView extends RelativeLayout{
     public RecentSearchLogView(Context context) {
         super(context);
         init();
+
     }
 
     public RecentSearchLogView(Context context, AttributeSet attrs) {
@@ -56,7 +57,7 @@ public class RecentSearchLogView extends RelativeLayout{
 
     private void test() {
         Route route = new Route();
-        route.setRouteNumber("5010");
+        route.setRouteName("5010");
 
         addSearchLog(route);
         addSearchLog(route);
@@ -136,7 +137,7 @@ public class RecentSearchLogView extends RelativeLayout{
         public void onBindViewHolder(DataHolder holder, int position) {
             Route route = mRouteList.get(position);
             
-            holder.mRouteText.setText(route.getRouteNumber());
+            holder.mRouteText.setText(route.getRouteName());
         }
 
         @Override

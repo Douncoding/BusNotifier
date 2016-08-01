@@ -55,7 +55,7 @@ public class StationArriveView extends RelativeLayout {
     private void test() {
         for (int i = 0; i < 5; i++) {
             Route route = new Route();
-            route.setRouteNumber("1500");
+            route.setRouteName("1500");
             mRouteList.add(route);
         }
         mAdapter.notifyDataSetChanged();
@@ -102,7 +102,7 @@ public class StationArriveView extends RelativeLayout {
             Route route = mRouteList.get(position);
 
             if (route != null) {
-                holder.mRouteNumberText.setText(route.getRouteNumber());
+                holder.mRouteNumberText.setText(route.getRouteName());
             }
         }
 

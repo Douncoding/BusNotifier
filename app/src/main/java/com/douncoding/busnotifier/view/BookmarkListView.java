@@ -59,7 +59,7 @@ public class BookmarkListView extends RelativeLayout {
 
     private void test() {
         Route route = new Route();
-        route.setRouteNumber("50");
+        route.setRouteName("50");
         route.setRouteType("경기 안성시 일반버스");
 
         addBookmark(route);
@@ -149,7 +149,7 @@ public class BookmarkListView extends RelativeLayout {
             Route route = mBookmarkList.get(position);
 
             if (route != null) {
-                holder.mRouteNumber.setText(route.getRouteNumber());
+                holder.mRouteNumber.setText(route.getRouteName());
                 holder.mRouteDesc.setText(route.getRouteType());
             }
         }
