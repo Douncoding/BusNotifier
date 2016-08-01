@@ -7,9 +7,6 @@ import android.os.AsyncTask;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
-import com.douncoding.busnotifier.R;
-import com.douncoding.busnotifier.data.Route;
-
 import java.io.InputStream;
 import java.util.List;
 
@@ -20,15 +17,15 @@ public abstract class BaseRepository<T> {
     private static final String TAG = BaseRepository.class.getSimpleName();
 
     protected final Context context;
-    protected final DatabaseHelper databaseHelper;
-    protected final String tableName;
+    protected final DatabaseHelper mDatabaseHelper;
+    protected final String TABLE_NAME;
 
     protected final String[] columns;
 
     public BaseRepository(Context context, String tableName, String[] columns) {
         this.context = context;
-        this.databaseHelper = DatabaseHelper.getInstance(context);
-        this.tableName = tableName;
+        this.mDatabaseHelper = DatabaseHelper.getInstance(context);
+        this.TABLE_NAME = tableName;
         this.columns = columns;
     }
 
@@ -42,10 +39,10 @@ public abstract class BaseRepository<T> {
     }
 
     public void createLocalDataStore(@RawRes final int target) {
-        if (databaseHelper.isThereTable(tableName)) {
-            Log.i(TAG, tableName + "는 이미 존재하는 테이블");
+        if (mDatabaseHelper.isThereTable(TABLE_NAME)) {
+            Log.i(TAG, TABLE_NAME + "는 이미 존재하는 테이블");
         } else {
-            Log.i(TAG, tableName + " 로컬 파일기반 데이터베이스 생성 시작");
+            Log.i(TAG, TABLE_NAME + " 로컬 파일기반 데이터베이스 생성 시작");
             InputStream in = this.context.getResources().openRawResource(target);
             new AsyncTask<InputStream, Void, Void>() {
                 @Override
@@ -58,7 +55,7 @@ public abstract class BaseRepository<T> {
 
                         @Override
                         void onFinished() {
-                            Log.i(TAG, tableName + "로컬 파일기반 데이터베이스 생성 완료");
+                            Log.i(TAG, TABLE_NAME + "로컬 파일기반 데이터베이스 생성 완료");
                         }
                     };
                     return null;
@@ -68,7 +65,7 @@ public abstract class BaseRepository<T> {
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
 
-                    databaseHelper.insertTableVersion(tableName, null);
+                    mDatabaseHelper.insertTableVersion(TABLE_NAME, null);
 
                     if (onListener != null)
                         onListener.onCreate();
@@ -78,7 +75,7 @@ public abstract class BaseRepository<T> {
     }
 
     public void insert(List<String> values) {
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
         db.beginTransaction();
         try {
@@ -86,7 +83,7 @@ public abstract class BaseRepository<T> {
             for (int i = 0; i < values.size(); i++) {
                 contentValues.put(columns[i], values.get(i));
             }
-            db.insertOrThrow(tableName, null, contentValues);
+            db.insertOrThrow(TABLE_NAME, null, contentValues);
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();

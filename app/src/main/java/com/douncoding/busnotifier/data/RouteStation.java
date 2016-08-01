@@ -4,9 +4,11 @@ package com.douncoding.busnotifier.data;
  *
  */
 public class RouteStation {
+    public static final String FORWARD = "정";
+    public static final String REVERSE = "역";
+
     int idRoute;
     int idStation;
-
     int stationOrder;
     String upDown;
     String stationName;

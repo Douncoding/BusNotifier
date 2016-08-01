@@ -3,6 +3,7 @@ package com.douncoding.busnotifier.presenter;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +31,16 @@ public class SearchPresenter implements SearchContract.Presenter {
     @Override
     public void searchRouteByName() {
         List<Route> routeList = mRouteRepository.findByLikeName(mTargetRouteName);
-        mView.showSearchRouteList(routeList);
+        List<Route> filterList = new LinkedList<>();
+
+        // 필터링: 세부정보를 알수 없는 경우 검색목록에서 제외한다
+        for (Route route : routeList) {
+            if (route.getDescription() != null) {
+                filterList.add(route);
+            }
+        }
+
+        mView.showSearchRouteList(filterList);
     }
 
     @Override

@@ -35,8 +35,8 @@ public class RouteRepository extends BaseRepository<Route> {
      */
     public List<Route> findByLikeName(String routeName) {
         String SELECT_SQL = String.format("SELECT * FROM %s WHERE %s = %s",
-                tableName, DatabaseContract.Route.ROUTE_NM, routeName);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+                TABLE_NAME, DatabaseContract.Route.ROUTE_NM, routeName);
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(SELECT_SQL, null);
 
         List<Route> results = new LinkedList<>();

@@ -8,13 +8,12 @@ public class Station {
     int idStation;
 
     String name;
-    String code;
     int idCenter;
-    boolean isCenter;
+    String isCenter;
     float x;
     float y;
     String regionName;
-    String mobile;
+    String mobileCode;
     String districtCode;
 
     public int getIdStation() {
@@ -33,14 +32,6 @@ public class Station {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public int getIdCenter() {
         return idCenter;
     }
@@ -49,12 +40,12 @@ public class Station {
         this.idCenter = idCenter;
     }
 
-    public boolean isCenter() {
+    public String getIsCenter() {
         return isCenter;
     }
 
-    public void setCenter(boolean center) {
-        isCenter = center;
+    public void setIsCenter(String isCenter) {
+        this.isCenter = isCenter;
     }
 
     public float getX() {
@@ -81,12 +72,13 @@ public class Station {
         this.regionName = regionName;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getMobileCode() {
+
+        return mobileCode;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setMobileCode(String mobileCode) {
+        this.mobileCode = mobileCode;
     }
 
     public String getDistrictCode() {

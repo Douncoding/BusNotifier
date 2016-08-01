@@ -15,15 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.douncoding.busnotifier.R;
+import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 노선별 정류장 목록 뷰
  *
  * TODO 1. 현재위치의 정류장
- * TODO 2. MVP
  * TODO 3. 하차정류장 선택 화면
  */
 public class StationRouteView extends RelativeLayout {
@@ -54,18 +55,11 @@ public class StationRouteView extends RelativeLayout {
 
         mStationRouteView.setLayoutManager(mLayoutManager);
         mStationRouteView.setAdapter(mAdapter);
-
-        test();
     }
 
-    private void test() {
-        Station station = new Station();
-        station.setName("광교혜령공원");
-        station.setCode("04327");
-
-        for (int i = 0; i < 15; i++) {
-            mStationList.add(station);
-        }
+    public void setUpStationList(List<Station> list) {
+        mStationList.clear();
+        mStationList.addAll(list);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -82,7 +76,8 @@ public class StationRouteView extends RelativeLayout {
 
                 mStationName = (TextView)itemView.findViewById(R.id.station_name_txt);
                 mStationCode = (TextView)itemView.findViewById(R.id.station_code_txt);
-                mStationSETime = (TextView)itemView.findViewById(R.id.station_se_time_txt);
+                // 미사용
+                // mStationSETime = (TextView)itemView.findViewById(R.id.station_se_time_txt);
                 mAlarmButton = (ImageView)itemView.findViewById(R.id.take_off_btn);
                 mAlarmButton.setOnClickListener(new OnClickListener() {
                     @Override
@@ -116,6 +111,12 @@ public class StationRouteView extends RelativeLayout {
 
             if (station != null) {
                 holder.mStationName.setText(station.getName());
+                String mobileCode = station.getMobileCode();
+                if (mobileCode.equals("0") || mobileCode.equals("00000")) {
+                    mobileCode = "미정차";
+                }
+                holder.mStationCode.setText(mobileCode);
+                //holder.mStationSETime.setText(station.get);
             }
         }
 

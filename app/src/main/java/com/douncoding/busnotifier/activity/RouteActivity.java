@@ -11,18 +11,29 @@ import android.widget.TextView;
 
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.Route;
+import com.douncoding.busnotifier.data.RouteStation;
+import com.douncoding.busnotifier.data.Station;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.data.repository.RouteStationRepository;
+import com.douncoding.busnotifier.data.repository.StationRepository;
 import com.douncoding.busnotifier.presenter.RouteContract;
 import com.douncoding.busnotifier.presenter.RoutePresenter;
 import com.douncoding.busnotifier.view.StationRouteView;
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 프라그먼트 없이 액티비티 자체에서 기능 수행
  *
+ * 기능목록:
+ * - 노선정보
+ * - 노선경로
+ * - 현재 버스위치
+ * - 하차알림 선택
  */
 public class RouteActivity extends BaseActivity implements RouteContract.View {
 
@@ -35,7 +46,7 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
     @BindView(R.id.route_info_btn) LinearLayout mInfoButton;
     @BindView(R.id.maps_btn) LinearLayout mMapsButton;
 
-     RoutePresenter mPresenter;
+    RoutePresenter mPresenter;
 
     public static final String EXTRA_ROUTE = "EXTRA_ROUTE";
     public static Intent getCallingIntent(Context context ,Route route) {
@@ -58,7 +69,7 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
         mPresenter = new RoutePresenter(
                 new Gson().fromJson(getIntent().getStringExtra(EXTRA_ROUTE), Route.class),
                 this,
-                RouteRepository.getInstance(this),
+                StationRepository.getInstance(this),
                 RouteStationRepository.getInstance(this));
 
         setSupportActionBar(mToolbar);
@@ -74,6 +85,7 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.initialize();
     }
 
     @Override
@@ -90,8 +102,8 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
     }
 
     @Override
-    public void setRouteStationList() {
-
+    public void setRouteStationList(List<Station> list) {
+        mStationRouteView.setUpStationList(list);
     }
 
     @Override
