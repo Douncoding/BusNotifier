@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.douncoding.busnotifier.R;
+import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
@@ -71,9 +72,9 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
                 this,
                 StationRepository.getInstance(this),
                 RouteStationRepository.getInstance(this));
+        mPresenter.initialize();
 
         setSupportActionBar(mToolbar);
-
         mMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +86,6 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.initialize();
     }
 
     @Override
@@ -102,8 +102,8 @@ public class RouteActivity extends BaseActivity implements RouteContract.View {
     }
 
     @Override
-    public void setRouteStationList(List<Station> list) {
-        mStationRouteView.setUpStationList(list);
+    public void setRouteStationList(List<Station> slist, List<BusLocation> blist) {
+        mStationRouteView.setUpStationList(slist, blist);
     }
 
     @Override

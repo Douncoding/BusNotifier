@@ -1,11 +1,16 @@
 package com.douncoding.busnotifier.presenter;
 
+import android.util.Log;
+
+import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.data.repository.RouteStationRepository;
 import com.douncoding.busnotifier.data.repository.StationRepository;
+import com.douncoding.busnotifier.net.api.BusLocationApi;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +28,8 @@ public class RoutePresenter implements RouteContract.Presenter {
 
     // 현재 처리중인 노선이름 변수
     private Route mRoute;
-    private ArrayList<RouteStation> mForwardList;
-    private ArrayList<RouteStation> mReverseList;
     private ArrayList<Station> mStationList;
+    private ArrayList<BusLocation> mBusLocationList;
 
     public RoutePresenter(Route route,
                           RouteContract.View view,
@@ -35,9 +39,9 @@ public class RoutePresenter implements RouteContract.Presenter {
         this.mRouteView = view;
         this.mStationRepository = stationRepository;
         this.mRouteStationRepository = routeStationRepository;
-        this.mForwardList = new ArrayList<>();
-        this.mReverseList = new ArrayList<>();
+
         this.mStationList = new ArrayList<>();
+        this.mBusLocationList = new ArrayList<>();
     }
 
 
@@ -48,18 +52,18 @@ public class RoutePresenter implements RouteContract.Presenter {
         List<RouteStation> routeStationList =
                 mRouteStationRepository.findRouteStationById(mRoute.getIdRoute());
 
+        // 정류소 세부정보 얻기
         for (RouteStation routeStation : routeStationList) {
-            // 방향 별 정렬
-            if (routeStation.getUpDown().contains(RouteStation.FORWARD)) {
-                mForwardList.add(routeStation);
-            } else {
-                mReverseList.add(routeStation);
-            }
-            // 정류소 세부정보 얻기
             mStationList.add(mStationRepository.findStationById(routeStation.getIdStation()).get(0));
         }
 
-        mRouteView.setRouteStationList(mStationList);
+        BusLocationApi.getBusLocationList(mRoute.getIdRoute(), new BusLocationApi.OnCallback() {
+            @Override
+            public void onResponse(List<BusLocation> list) {
+                mBusLocationList.addAll(list);
+                mRouteView.setRouteStationList(mStationList, mBusLocationList);
+            }
+        });
     }
 
     @Override

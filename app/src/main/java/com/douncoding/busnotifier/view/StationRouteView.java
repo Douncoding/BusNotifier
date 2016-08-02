@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.douncoding.busnotifier.R;
+import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ public class StationRouteView extends RelativeLayout {
     RouteAdapter mAdapter;
 
     ArrayList<Station> mStationList = new ArrayList<>();
+    HashMap<Integer, String> mBusLocationMap = new HashMap<>();
 
     public StationRouteView(Context context) {
         super(context);
@@ -57,15 +60,22 @@ public class StationRouteView extends RelativeLayout {
         mStationRouteView.setAdapter(mAdapter);
     }
 
-    public void setUpStationList(List<Station> list) {
+    public void setUpStationList(List<Station> stationList, List<BusLocation> busLocationList) {
         mStationList.clear();
-        mStationList.addAll(list);
+        mStationList.addAll(stationList);
+
+        mBusLocationMap.clear();
+        for (BusLocation location : busLocationList) {
+            mBusLocationMap.put(location.getIdStation(), location.getPlateNo());
+        }
+
         mAdapter.notifyDataSetChanged();
     }
 
     class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.DataHolder> {
 
         class DataHolder extends RecyclerView.ViewHolder {
+            StationRouteMarkerLineView mMarkerView;
             TextView mStationName;
             TextView mStationCode;
             TextView mStationSETime;
@@ -74,6 +84,7 @@ public class StationRouteView extends RelativeLayout {
             public DataHolder(View itemView) {
                 super(itemView);
 
+                mMarkerView = (StationRouteMarkerLineView)itemView.findViewById(R.id.marker_line_view);
                 mStationName = (TextView)itemView.findViewById(R.id.station_name_txt);
                 mStationCode = (TextView)itemView.findViewById(R.id.station_code_txt);
                 // 미사용
@@ -116,7 +127,13 @@ public class StationRouteView extends RelativeLayout {
                     mobileCode = "미정차";
                 }
                 holder.mStationCode.setText(mobileCode);
-                //holder.mStationSETime.setText(station.get);
+
+                String plate = mBusLocationMap.get(station.getIdStation());
+                if (plate != null) {
+                    holder.mMarkerView.visible(plate.substring(plate.length() - 4, plate.length()));
+                } else {
+                    holder.mMarkerView.invisible();
+                }
             }
         }
 

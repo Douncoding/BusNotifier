@@ -7,7 +7,7 @@
 
     <com.douncoding.busnotifier.view.StationRouteMarkerLineView
         android:id="@+id/marker_line_view"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:layout_toEndOf="@id/marker_line_view"
         android:layout_centerVertical="true"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:paddingEnd="16dp">
 

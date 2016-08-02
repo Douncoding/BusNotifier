@@ -1,5 +1,6 @@
 package com.douncoding.busnotifier.presenter;
 
+import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
@@ -28,7 +29,7 @@ public class RouteContract {
         // 노선 기본정보 뷰 정보 출력
         void setRouteBasicInfo(Route route);
         // 노선 정류소 목록 뷰 출력
-        void setRouteStationList(List<Station> list);
+        void setRouteStationList(List<Station> slist, List<BusLocation> blist);
         // 노선 세부정보 현시
         void showRouteDetailView(Route route);
         // 노선 경로 뷰 현시
@@ -37,6 +38,5 @@ public class RouteContract {
         void toggleBookmarkButton(boolean state);
         // 현재 사용자의 위치 출력
         void showCurrentLocation();
-
     }
 }
