@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.douncoding.busnotifier"
         minSdkVersion 21
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -26,7 +26,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.0'
     compile 'com.android.support:design:24.1.0'
     compile 'com.jakewharton:butterknife:8.2.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:cardview-v7:24.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.google.code.gson:gson:2.7'

@@ -1,16 +1,12 @@
 package com.douncoding.busnotifier.presenter;
 
-import android.util.Log;
-
 import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
-import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.data.repository.RouteStationRepository;
 import com.douncoding.busnotifier.data.repository.StationRepository;
 import com.douncoding.busnotifier.net.api.BusLocationApi;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -88,4 +88,57 @@ public class RouteRepository extends BaseRepository<Route> {
         }
         return results;
     }
+
+    public Route findById(int idRoute) {
+        String SELECT_SQL = String.format("SELECT * FROM %s WHERE %s = %s",
+                TABLE_NAME, DatabaseContract.Route.ROUTE_ID, idRoute);
+        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SELECT_SQL, null);
+        Route route = new Route();
+
+
+        try {
+            if (cursor.moveToFirst()) {
+                route.setIdRoute(cursor.getInt(
+                        cursor.getColumnIndex(DatabaseContract.Route.ROUTE_ID)));
+                route.setRouteName(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.ROUTE_NM)));
+                route.setRouteType(cursor.getInt(
+                        cursor.getColumnIndex(DatabaseContract.Route.ROUTE_TP)));
+                route.setStartStationId(cursor.getInt(
+                        cursor.getColumnIndex(DatabaseContract.Route.ST_STA_ID)));
+                route.setStartStationName(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.ST_STA_NM)));
+                route.setStartStationCode(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.ST_STA_NO)));
+                route.setEndStationId(cursor.getInt(
+                        cursor.getColumnIndex(DatabaseContract.Route.ED_STA_ID)));
+                route.setEndStationName(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.ED_STA_NM)));
+                route.setEndStationCode(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.ED_STA_NO)));
+                route.setUpFirstTime(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.UP_FIRST_TIME)));
+                route.setUpLastTime(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.UP_LAST_TIME)));
+                route.setDownFirstTime(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.DOWN_FIRST_TIME)));
+                route.setDownLastTime(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.DOWN_LAST_TIME)));
+                route.setPeekAlloc(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.PEEK_ALLOC)));
+                route.setNonPeekAlloc(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.NPEEK_ALLOC)));
+                route.setRegionName(cursor.getString(
+                        cursor.getColumnIndex(DatabaseContract.Route.REGION_NAME)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return route;
+    }
 }

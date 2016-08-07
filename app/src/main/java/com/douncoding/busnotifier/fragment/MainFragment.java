@@ -53,11 +53,9 @@ public class MainFragment extends BaseFragment {
         mNearStationView.setOnListener(new NearStationView.OnListener() {
             @Override
             public void onContainerClick(View view) {
-                BaseActivity baseActivity = (BaseActivity)getActivity();
-                baseActivity.mNavigator.navigateToStation(baseActivity);
+
             }
         });
-
 
         return view;
     }

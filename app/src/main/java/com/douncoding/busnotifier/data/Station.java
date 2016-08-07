@@ -1,5 +1,7 @@
 package com.douncoding.busnotifier.data;
 
+import com.google.gson.Gson;
+
 /**
  * 정류소 클래스
  * 멤버변수 설명 {@link com.douncoding.busnotifier.data.repository.DatabaseContract.Station}
@@ -87,5 +89,9 @@ public class Station {
 
     public void setDistrictCode(String districtCode) {
         this.districtCode = districtCode;
+    }
+
+    public String toSerialize() {
+        return new Gson().toJson(this);
     }
 }

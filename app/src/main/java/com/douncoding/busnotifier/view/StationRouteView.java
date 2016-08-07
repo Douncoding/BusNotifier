@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.BusLocation;
 import com.douncoding.busnotifier.data.RouteStation;
@@ -74,7 +75,7 @@ public class StationRouteView extends RelativeLayout {
 
     class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.DataHolder> {
 
-        class DataHolder extends RecyclerView.ViewHolder {
+        class DataHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             StationRouteMarkerLineView mMarkerView;
             TextView mStationName;
             TextView mStationCode;
@@ -106,6 +107,14 @@ public class StationRouteView extends RelativeLayout {
                         builder.show();
                     }
                 });
+
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Station station = mStationList.get(getPosition());
+                Navigator.navigateToStation(getContext(), station);
             }
         }
 

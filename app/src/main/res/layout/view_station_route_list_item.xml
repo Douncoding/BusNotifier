@@ -28,7 +28,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@android:color/black"
-            android:text="정류장 이름"/>
+            android:text="정류장 이름의 길이가 길어지면 점점점으로 표기해야합니다"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

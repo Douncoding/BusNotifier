@@ -7,6 +7,7 @@ import com.douncoding.busnotifier.activity.MapsActivity;
 import com.douncoding.busnotifier.activity.RouteActivity;
 import com.douncoding.busnotifier.activity.StationActivity;
 import com.douncoding.busnotifier.data.Route;
+import com.douncoding.busnotifier.data.Station;
 
 /**
  * 액티비티 간의 이동을 관리하는 클래스
@@ -29,9 +30,9 @@ public class Navigator {
         }
     }
 
-    public static void navigateToStation(Context context) {
+    public static void navigateToStation(Context context, Station station) {
         if (context != null) {
-            Intent intent = StationActivity.getCallingIntent(context);
+            Intent intent = StationActivity.getCallingIntent(context, station);
             context.startActivity(intent);
         }
     }
