@@ -6,18 +6,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.BusLocation;
-import com.douncoding.busnotifier.data.RouteStation;
 import com.douncoding.busnotifier.data.Station;
 
 import java.util.ArrayList;
@@ -31,6 +30,10 @@ import java.util.List;
  * TODO 3. 하차정류장 선택 화면
  */
 public class StationRouteView extends RelativeLayout {
+    private OnListener onListener;
+    public interface OnListener {
+        void onAlarmClicked(Station destStation, Station targetStation, String nearPlate);
+    }
 
     RecyclerView mStationRouteView;
     RecyclerView.LayoutManager mLayoutManager;
@@ -61,6 +64,10 @@ public class StationRouteView extends RelativeLayout {
         mStationRouteView.setAdapter(mAdapter);
     }
 
+    public void setOnListener(OnListener onListener) {
+        this.onListener = onListener;
+    }
+
     public void setUpStationList(List<Station> stationList, List<BusLocation> busLocationList) {
         mStationList.clear();
         mStationList.addAll(stationList);
@@ -88,26 +95,7 @@ public class StationRouteView extends RelativeLayout {
                 mMarkerView = (StationRouteMarkerLineView)itemView.findViewById(R.id.marker_line_view);
                 mStationName = (TextView)itemView.findViewById(R.id.station_name_txt);
                 mStationCode = (TextView)itemView.findViewById(R.id.station_code_txt);
-                // 미사용
-                // mStationSETime = (TextView)itemView.findViewById(R.id.station_se_time_txt);
                 mAlarmButton = (ImageView)itemView.findViewById(R.id.take_off_btn);
-                mAlarmButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("하차 정류장을 선택하시겠습니까?");
-                        builder.setPositiveButton("선택", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(getContext()
-                                        , "공사중..."
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        builder.show();
-                    }
-                });
-
                 itemView.setOnClickListener(this);
             }
 
@@ -126,8 +114,8 @@ public class StationRouteView extends RelativeLayout {
         }
 
         @Override
-        public void onBindViewHolder(DataHolder holder, int position) {
-            Station station = mStationList.get(position);
+        public void onBindViewHolder(DataHolder holder, final int position) {
+            final Station station = mStationList.get(position);
 
             if (station != null) {
                 holder.mStationName.setText(station.getName());
@@ -144,6 +132,29 @@ public class StationRouteView extends RelativeLayout {
                     holder.mMarkerView.invisible();
                 }
             }
+
+            holder.mAlarmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String nearBusPlateNumber = null;
+                    for (int i = position; i > 0; i--) {
+                        nearBusPlateNumber = mBusLocationMap.get(mStationList.get(i).getIdStation());
+                        if (nearBusPlateNumber != null) {
+                            break;
+                        }
+                    }
+
+                    final Station target = mStationList.get(position - 2);
+                    final Station destination =  mStationList.get(position);
+
+//                    Log.e("CHECK", "목적지:" + destination.toSerialize());
+//                    Log.e("CHECK", "알람위치:" + target.toSerialize());
+//                    Log.e("CHECK", "가장가까운벗그번호:" + nearBusPlateNumber);
+                    if (onListener != null) {
+                        onListener.onAlarmClicked(destination, target, nearBusPlateNumber);
+                    }
+                }
+            });
         }
 
         @Override

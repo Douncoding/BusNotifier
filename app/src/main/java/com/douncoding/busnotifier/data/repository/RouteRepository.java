@@ -3,6 +3,7 @@ package com.douncoding.busnotifier.data.repository;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.Route;
@@ -25,8 +26,19 @@ public class RouteRepository extends BaseRepository<Route> {
         return instance;
     }
 
-    public void createLocalDataStore() {
-        super.createLocalDataStore(R.raw.station);
+    public interface OnListener {
+        void onCommon();
+    }
+
+    public void createLocalDataStore(final OnListener onListener) {
+        super.createLocalDataStore(R.raw.route, new BaseRepository.OnListener() {
+            @Override
+            public void onCreate() {
+                if (onListener != null) {
+                    onListener.onCommon();
+                }
+            }
+        });
     }
 
     /**

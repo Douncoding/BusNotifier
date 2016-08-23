@@ -16,13 +16,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.MapsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -31,7 +25,21 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.StationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".NotifierService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

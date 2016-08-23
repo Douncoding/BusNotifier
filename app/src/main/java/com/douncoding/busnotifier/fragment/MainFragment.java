@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.activity.BaseActivity;
 import com.douncoding.busnotifier.activity.MapsActivity;
@@ -22,13 +24,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ *
  * 주요기능
  * 1. 즐겨찾기
  * 2. 주변 정류소
  * 3. 최근 검색내역
  */
 public class MainFragment extends BaseFragment {
-
     @BindView(R.id.near_station_view)
     NearStationView mNearStationView;
 
@@ -53,11 +55,38 @@ public class MainFragment extends BaseFragment {
         mNearStationView.setOnListener(new NearStationView.OnListener() {
             @Override
             public void onContainerClick(View view) {
+                showMessage("구현중입니다..");
+            }
+        });
 
+        // 최근 검색목록 클릭 이벤트
+        mRecentSearchLogView.setOnListener(new RecentSearchLogView.OnListener() {
+            @Override
+            public void onBookmarkClick(View view, Route route) {
+                mBookmarkListView.update();
+            }
+
+            @Override
+            public void onItemClicked(View view, Route route) {
+                Navigator.navigateToRoute(getActivity(), route, 0);
+            }
+        });
+
+        mBookmarkListView.setOnListener(new BookmarkListView.OnListener() {
+            @Override
+            public void onItemClicked(View view, Route route) {
+                Navigator.navigateToRoute(getActivity(), route, 0);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBookmarkListView.update();
+        mRecentSearchLogView.update();
     }
 
     @Override

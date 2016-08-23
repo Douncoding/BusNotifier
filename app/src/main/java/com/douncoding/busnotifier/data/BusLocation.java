@@ -1,5 +1,7 @@
 package com.douncoding.busnotifier.data;
 
+import com.google.gson.Gson;
+
 /**
  * 버스 위치 클래스
  */
@@ -67,5 +69,10 @@ public class BusLocation {
 
     public void setRemainSeatCnt(int remainSeatCnt) {
         this.remainSeatCnt = remainSeatCnt;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

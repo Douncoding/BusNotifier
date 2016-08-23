@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
+import com.douncoding.busnotifier.view.BookmarkListView;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -29,18 +31,15 @@ public abstract class BaseRepository<T> {
         this.columns = columns;
     }
 
-    OnListener onListener;
     public interface OnListener {
         void onCreate();
     }
 
-    public void setOnListener(OnListener onListener) {
-        this.onListener = onListener;
-    }
-
-    public void createLocalDataStore(@RawRes final int target) {
+    public void createLocalDataStore(@RawRes final int target, final OnListener onListener) {
         if (mDatabaseHelper.isThereTable(TABLE_NAME)) {
             Log.i(TAG, TABLE_NAME + "는 이미 존재하는 테이블");
+            if (onListener != null)
+                onListener.onCreate();
         } else {
             Log.i(TAG, TABLE_NAME + " 로컬 파일기반 데이터베이스 생성 시작");
             InputStream in = this.context.getResources().openRawResource(target);

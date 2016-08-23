@@ -3,6 +3,7 @@ package com.douncoding.busnotifier;
 import android.content.Context;
 import android.content.Intent;
 
+import com.douncoding.busnotifier.activity.MainActivity;
 import com.douncoding.busnotifier.activity.MapsActivity;
 import com.douncoding.busnotifier.activity.RouteActivity;
 import com.douncoding.busnotifier.activity.StationActivity;
@@ -23,9 +24,29 @@ public class Navigator {
         }
     }
 
-    public static void navigateToRoute(Context context, Route route) {
+    public static void navigateToMain(Context context) {
         if (context != null) {
-            Intent intent = RouteActivity.getCallingIntent(context, route);
+            Intent intent = MainActivity.getCallingIntent(context);
+            context.startActivity(intent);
+        }
+    }
+
+    public static void startNotifierService(Context context) {
+        if (context != null) {
+            Intent intent = new Intent(context, NotifierService.class);
+            context.startService(intent);
+        }
+    }
+
+    /**
+     *
+     * @param context 현재 컨택스트
+     * @param route 조회 노선
+     * @param flag 최근검색목록 기록 여부
+     */
+    public static void navigateToRoute(Context context, Route route, int flag) {
+        if (context != null) {
+            Intent intent = RouteActivity.getCallingIntent(context, route, flag);
             context.startActivity(intent);
         }
     }

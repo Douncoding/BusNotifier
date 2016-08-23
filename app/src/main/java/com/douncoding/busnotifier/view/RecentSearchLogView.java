@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.Route;
+import com.douncoding.busnotifier.data.repository.BookmarkRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 최근 검색기록
@@ -28,7 +30,9 @@ public class RecentSearchLogView extends RelativeLayout {
     RecyclerView.LayoutManager mLayoutManager;
     RecentSearchLogAdapter mAdapter;
 
-    ArrayList<Route> mRouteList = new ArrayList<>();
+    ArrayList<Route> mRouteList;
+
+    BookmarkRepository bookmarkRepository;
 
     public RecentSearchLogView(Context context) {
         super(context);
@@ -52,26 +56,21 @@ public class RecentSearchLogView extends RelativeLayout {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        test();
+        bookmarkRepository = BookmarkRepository.getInstance(getContext());
+        update();
     }
 
-    private void test() {
-        Route route = new Route();
-        route.setRouteName("5010");
-
-        addSearchLog(route);
-        addSearchLog(route);
-        addSearchLog(route);
-        addSearchLog(route);
+    public void update() {
+        List<Route> list = bookmarkRepository.getList(BookmarkRepository.TYPE_RECENT);
+        setDataStore(list);
     }
 
     /**
-     * 신규 검색기록 추가 
-     * 
-     * @param route 최근 검색목록에 추가할 노선 클래스
+     * 신규 검색기록 추가
+     * @param routes 최근 검색목록에 추가할 노선 클래스
      */
-    public void addSearchLog(Route route) {
-        mRouteList.add(route);
+    private void setDataStore(List<Route> routes) {
+        mRouteList = new ArrayList<>(routes);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -79,6 +78,8 @@ public class RecentSearchLogView extends RelativeLayout {
     public interface OnListener {
         // 즐겨찾기 등록 시 외부 처리로직 구현
         void onBookmarkClick(View view, Route route);
+        // 아이템 클릭 시 외부 처리로직 구현
+        void onItemClicked(View view, Route route);
     }
     
     public void setOnListener(OnListener onListener) {
@@ -104,11 +105,14 @@ public class RecentSearchLogView extends RelativeLayout {
                     @Override
                     public void onClick(View view) {
                         int position = getPosition();
+                        Route route = mRouteList.get(position);
+                        bookmarkRepository.add(route, BookmarkRepository.TYPE_BOOKMARK);
+
                         mRouteList.remove(position);
                         notifyItemRemoved(position);
 
                         if (onListener != null) {
-                            onListener.onBookmarkClick(view, mRouteList.get(position));
+                            onListener.onBookmarkClick(view, route);
                         }
                     }
                 });
@@ -118,7 +122,9 @@ public class RecentSearchLogView extends RelativeLayout {
                     @Override
                     public void onClick(View view) {
                         int position = getPosition();
-                        
+
+                        bookmarkRepository.del(mRouteList.get(position));
+
                         mRouteList.remove(position);
                         notifyItemRemoved(position);
                     }
@@ -130,14 +136,24 @@ public class RecentSearchLogView extends RelativeLayout {
         public DataHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.view_recentlog_list_item, parent, false);
+
             return new DataHolder(view);
         }
 
         @Override
         public void onBindViewHolder(DataHolder holder, int position) {
-            Route route = mRouteList.get(position);
+            final Route route = mRouteList.get(position);
             
             holder.mRouteText.setText(route.getRouteName());
+
+            holder.itemView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onListener != null) {
+                        onListener.onItemClicked(view, route);
+                    }
+                }
+            });
         }
 
         @Override

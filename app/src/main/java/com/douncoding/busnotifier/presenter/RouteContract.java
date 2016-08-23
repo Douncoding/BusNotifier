@@ -16,7 +16,7 @@ public class RouteContract {
         // 초기화
         void initialize();
         // 노선 즐겨찾기 추가
-        void addBookmark();
+        void changeBookmark();
         // 노선 즐겨찾기 삭제
         void removeBookmark();
         // 버스 위치 갱신
@@ -35,7 +35,9 @@ public class RouteContract {
         // 노선 경로 뷰 현시
         void showRouteStationMapView();
         // 즐겨찾기 버튼 상태 변경
-        void toggleBookmarkButton(boolean state);
+        void changeBookmarkState(boolean state);
+        // 토스트 메시지
+        void showMessage(String message);
         // 현재 사용자의 위치 출력
         void showCurrentLocation();
     }

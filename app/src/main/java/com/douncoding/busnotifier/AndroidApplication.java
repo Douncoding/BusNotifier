@@ -1,7 +1,10 @@
 package com.douncoding.busnotifier;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.douncoding.busnotifier.data.repository.DatabaseContract;
 import com.douncoding.busnotifier.data.repository.DatabaseHelper;
@@ -9,30 +12,18 @@ import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.data.repository.RouteStationRepository;
 import com.douncoding.busnotifier.data.repository.StationRepository;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  *
  */
 public class AndroidApplication extends Application {
 
-    RouteRepository routeRepository;
-    StationRepository stationRepository;
-    RouteStationRepository routeStationRepository;
-
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Log.e("CHECK", getDatabasePath(DatabaseContract.DATABASE_NAME).getAbsolutePath());
-
-        routeRepository = RouteRepository.getInstance(this);
-        routeRepository.createLocalDataStore();
-
-        stationRepository = StationRepository.getInstance(this);
-        stationRepository.createLocalDataStore();
-
-        routeStationRepository = RouteStationRepository.getInstance(this);
-        routeStationRepository.createLocalDataStore();
-
-        DatabaseHelper.exportDatabse();
     }
 }

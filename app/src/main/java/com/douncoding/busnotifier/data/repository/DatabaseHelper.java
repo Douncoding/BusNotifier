@@ -5,12 +5,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+
+import com.douncoding.busnotifier.R;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.channels.FileChannel;
 
 /**
@@ -29,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context,
                 DatabaseContract.DATABASE_NAME,
                 null,
@@ -41,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.Version.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.Station.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.RouteStation.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.Bookmark.TABLE_NAME);
     }
 
     @Override
@@ -49,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DatabaseContract.Route.CREATE_TABLE_SQL);
         sqLiteDatabase.execSQL(DatabaseContract.Station.CREATE_TABLE_SQL);
         sqLiteDatabase.execSQL(DatabaseContract.RouteStation.CREATE_TABLE_SQL);
+        sqLiteDatabase.execSQL(DatabaseContract.Bookmark.CREATE_TABLE_SQL);
     }
 
     @Override
@@ -57,11 +64,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public static void exportDatabse() {
+    /**
+     * 앱 최초 설치시 백업된 데이터베이스를 사용하도록 유도
+     */
+    public static boolean copyToInitDatabase(Context context) {
+//        InputStream inputStream = context.getResources().openRawResource(R.raw.backup);
+//        String dst = context.getDatabasePath(DatabaseContract.DATABASE_NAME).getAbsolutePath();
+//        File dstFile = new File(dst);
+//
+//        try {
+//            FileOutputStream outputStream = new FileOutputStream(dstFile);
+//
+//            byte buf[] = new byte[1024];
+//            int len;
+//            while ((len = inputStream.read(buf)) > 0) {
+//                outputStream.write(buf, 0, len);
+//            }
+//
+//            outputStream.close();
+//            inputStream.close();
+//            Log.e("CHECK", "초기화 데이터베이스 복사완료: ");
+//            return true;
+//        } catch (Exception e) {
+//            Log.e("CHECK", "초기화 데이터베이스 복사실패: " + e.toString());
+//            return false;
+//        }
+        return false;
+    }
+
+    public static void exportDatabase() {
         try {
             File sd = new File("/sdcard/Download");
-            File data = Environment.getDataDirectory();
-
             if (sd.canWrite()) {
                 String currentDBPath =  DatabaseHelper.context.getDatabasePath(
                         DatabaseContract.DATABASE_NAME).getAbsolutePath();
@@ -77,11 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     src.close();
                     dst.close();
                     Log.i(TAG, "데이터베이스 백업완료:" + backupDB.getPath());
-                } else {
-                    Log.w(TAG, "데이터베이스 미존재123123");
                 }
-            } else {
-                Log.w(TAG, "데이터베이스 쓰기 권한 오류123123");
             }
         } catch (Exception e) {
             e.printStackTrace();

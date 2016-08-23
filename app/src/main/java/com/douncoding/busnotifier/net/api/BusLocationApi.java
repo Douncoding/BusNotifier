@@ -76,6 +76,7 @@ public class BusLocationApi {
                 String url = API_BASE_URL + "?" + "serviceKey=" + API_KEY + "&routeId=" + idRoute;
 
                 try {
+                    Log.d("CHECK", "버스위치정보 요청:" + idRoute);
                     return ApiConnection.createGET(url).requestSyncCall();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -87,6 +88,7 @@ public class BusLocationApi {
             protected void onPostExecute(String string) {
                 super.onPostExecute(string);
                 try {
+                    Log.d("CHECK", "버스위치정보 웅답:" + idRoute);
                     callback.onResponse(parseToBusLocation(string));
                 } catch (Exception e) {
                     e.printStackTrace();

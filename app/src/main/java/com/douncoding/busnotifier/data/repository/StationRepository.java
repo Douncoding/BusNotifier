@@ -32,8 +32,19 @@ public class StationRepository extends BaseRepository<Station> {
                 DatabaseContract.Station.getColumnNames());
     }
 
-    public void createLocalDataStore() {
-        super.createLocalDataStore(R.raw.station);
+    public interface OnListener {
+        void onCommon();
+    }
+
+    public void createLocalDataStore(final OnListener onListener) {
+        super.createLocalDataStore(R.raw.station, new BaseRepository.OnListener() {
+            @Override
+            public void onCreate() {
+                if (onListener != null) {
+                    onListener.onCommon();
+                }
+            }
+        });
     }
 
     public List<Station> findStationById(int idStation) {

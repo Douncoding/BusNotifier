@@ -31,8 +31,19 @@ public class RouteStationRepository extends BaseRepository<RouteStation> {
                 DatabaseContract.RouteStation.getColumnNames());
     }
 
-    public void createLocalDataStore() {
-        super.createLocalDataStore(R.raw.routestation);
+    public interface OnListener {
+        void onCommon();
+    }
+
+    public void createLocalDataStore(final OnListener onListener) {
+        super.createLocalDataStore(R.raw.routestation, new BaseRepository.OnListener() {
+            @Override
+            public void onCreate() {
+                if (onListener != null) {
+                    onListener.onCommon();
+                }
+            }
+        });
     }
 
     public List<RouteStation> findRouteStationById(int idRoute) {

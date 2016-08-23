@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public final class DatabaseContract {
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "Busnotifier";
 
     private static final String TEXT_TYPE = "TEXT";
@@ -206,6 +206,37 @@ public final class DatabaseContract {
                 STA_ORDER + " " + TEXT_TYPE + ", " +
                 ROUTE_NM + " " + TEXT_TYPE + ", " +
                 STATION_NM + " " + TEXT_TYPE +
+                ")";
+
+        public static String[] getColumnNames() {
+            return Arrays.toString(Columns.values()).replaceAll("^.|.$", "").split(", ");
+        }
+    }
+
+    public static abstract class Bookmark implements BaseColumns {
+        public static final String TABLE_NAME = "BOOKMARK";
+
+        // 북마크 ID = 노선 ID
+        public static final String BOOKMARK_ID = "BOOKMARK_ID";
+        // ROUTE with JSON
+        public static final String JSON_ROUTE = "JSON_ROUTE";
+        // 북마크 및 최근검색 기록 구분
+        // 0 = 최근검새긱록, 1 = 북마크
+        public static final String FLAG = "FLAG";
+        public enum Columns {
+            BOOKMARK_ID, JSON_ROUTE, FLAG
+        }
+
+        public enum Type {
+            BOOMARK, RECENT
+        }
+
+        public static final String CREATE_TABLE_SQL = "CREATE TABLE " +
+                TABLE_NAME + " " +
+                "(" +
+                BOOKMARK_ID + " " + PRIMARY_KEY_TYPE + ", " +
+                JSON_ROUTE + " " + TEXT_TYPE + ", " +
+                FLAG + " " + INTEGER_TYPE +
                 ")";
 
         public static String[] getColumnNames() {

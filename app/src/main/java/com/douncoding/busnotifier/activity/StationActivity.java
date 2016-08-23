@@ -2,8 +2,6 @@ package com.douncoding.busnotifier.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,7 +12,6 @@ import com.douncoding.busnotifier.data.BusArrival;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.Station;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
-import com.douncoding.busnotifier.fragment.StationFragment;
 import com.douncoding.busnotifier.presenter.StationContract;
 import com.douncoding.busnotifier.presenter.StationPresenter;
 import com.douncoding.busnotifier.view.StationArriveView;

@@ -14,11 +14,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.data.Route;
+import com.douncoding.busnotifier.data.repository.BookmarkRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 즐겨찾기 목록
@@ -31,6 +32,8 @@ public class BookmarkListView extends RelativeLayout {
     BookmarkAdapter mAdapter;
 
     ArrayList<Route> mBookmarkList = new ArrayList<>();
+
+    BookmarkRepository bookmarkRepository;
 
     public BookmarkListView(Context context) {
         super(context);
@@ -54,28 +57,23 @@ public class BookmarkListView extends RelativeLayout {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(48));
 
-        test();
+        update();
     }
 
-    private void test() {
-        Route route = new Route();
-        route.setRouteName("50");
-        route.setRouteType(13);
-
-        addBookmark(route);
-        addBookmark(route);
-        addBookmark(route);
-        addBookmark(route);
+    public void update() {
+        BookmarkRepository bookmarkRepository = BookmarkRepository.getInstance(getContext());
+        List<Route> list = bookmarkRepository.getList(BookmarkRepository.TYPE_BOOKMARK);
+        setDataStore(list);
     }
 
-    public void addBookmark(Route route) {
-        mBookmarkList.add(route);
+    public void setDataStore(List<Route> routeList) {
+        mBookmarkList = new ArrayList<>(routeList);
         mAdapter.notifyDataSetChanged();
     }
 
     OnListener onListener;
     public interface OnListener {
-        void onItemClick(View view, Route route);
+        void onItemClicked(View view, Route route);
     }
 
     public void setOnListener(OnListener onListener) {
@@ -116,12 +114,8 @@ public class BookmarkListView extends RelativeLayout {
                     public void onClick(View view) {
                         Route route = mBookmarkList.get(getPosition());
 
-//                        Navigator.navigateToRoute(
-//                                BookmarkListView.this.getContext(),
-//                                route.getRouteName());
-
                         if (onListener != null)
-                            onListener.onItemClick(view, route);
+                            onListener.onItemClicked(view, route);
                     }
                 });
             }
@@ -158,6 +152,8 @@ public class BookmarkListView extends RelativeLayout {
                 holder.mRouteNumber.setText(route.getRouteName());
                 holder.mRouteDesc.setText(route.getDescription());
             }
+
+
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.douncoding.busnotifier.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.douncoding.busnotifier.NotifierService;
+import com.douncoding.busnotifier.data.repository.BookmarkRepository;
+import com.douncoding.busnotifier.data.repository.DatabaseContract;
 import com.douncoding.busnotifier.fragment.MainFragment;
 import com.douncoding.busnotifier.R;
 import com.douncoding.busnotifier.fragment.SearchFragment;
@@ -33,6 +37,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.drawer_layout) DrawerLayout mDrawer;
     @BindView(R.id.nav_view) NavigationView mNavView;
     @BindView(R.id.search_view) SearchView mSearchView;
+
+    public static Intent getCallingIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +95,10 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.cancel_notifier) {
+            NotifierService.sendStopTrackBroadcast(getApplicationContext());
+        }
 
         mDrawer.closeDrawer(GravityCompat.START);
         return true;

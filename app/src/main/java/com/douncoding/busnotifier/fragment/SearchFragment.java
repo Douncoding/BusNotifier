@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.douncoding.busnotifier.Navigator;
 import com.douncoding.busnotifier.R;
+import com.douncoding.busnotifier.activity.RouteActivity;
 import com.douncoding.busnotifier.data.Route;
 import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.presenter.SearchContract;
@@ -115,7 +116,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View 
             public void onClick(View view) {
                 Route route = mSearchList.get(getPosition());
                 if (route != null) {
-                    Navigator.navigateToRoute(getContext(), route);
+                    Navigator.navigateToRoute(getContext(), route, RouteActivity.FROM_SEARCH);
                 } else {
                     throw new RuntimeException("Route 객체를 찾을 수 없습니다.");
                 }
