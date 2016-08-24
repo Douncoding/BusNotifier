@@ -127,10 +127,13 @@ public class BookmarkListView extends RelativeLayout {
 
                 // 팝업 메뉴의 삭제버튼 선택
                 if (id == R.id.bookmark_del) {
+                    // 데이터베이스 에서 삭제
+                    BookmarkRepository bookmarkRepository = BookmarkRepository.getInstance(getContext());
+                    bookmarkRepository.del(mBookmarkList.get(position));
+
+                    // 화면 갱신
                     mBookmarkList.remove(position);
                     notifyItemRemoved(position);
-
-                    //TODO 비즈니스 처리 (데이터 삭제)
                 }
 
                 return true;

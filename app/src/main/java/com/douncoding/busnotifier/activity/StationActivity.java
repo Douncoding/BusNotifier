@@ -54,8 +54,9 @@ public class StationActivity extends BaseActivity implements StationContract.Vie
         setContentView(R.layout.activity_station);
         ButterKnife.bind(this);
 
+        final Station station = new Gson().fromJson(getIntent().getStringExtra(EXTRA_STATION), Station.class);
         mPresenter = new StationPresenter(
-                new Gson().fromJson(getIntent().getStringExtra(EXTRA_STATION), Station.class),
+                station,
                 this,
                 RouteRepository.getInstance(this));
         mPresenter.initialize();
@@ -66,7 +67,7 @@ public class StationActivity extends BaseActivity implements StationContract.Vie
         mMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNavigator.navigateToMaps(StationActivity.this);
+                mNavigator.navigateToMapsWithMarker(StationActivity.this, station.getX(), station.getY());
             }
         });
     }

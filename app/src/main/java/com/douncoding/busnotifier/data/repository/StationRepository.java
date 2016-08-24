@@ -67,9 +67,9 @@ public class StationRepository extends BaseRepository<Station> {
                             cursor.getColumnIndex(DatabaseContract.Station.CENTER_ID)));
                     station.setIsCenter(cursor.getString(
                             cursor.getColumnIndex(DatabaseContract.Station.CENTER_YN)));
-                    station.setX(cursor.getFloat(
+                    station.setX(cursor.getDouble(
                             cursor.getColumnIndex(DatabaseContract.Station.X)));
-                    station.setY(cursor.getFloat(
+                    station.setY(cursor.getDouble(
                             cursor.getColumnIndex(DatabaseContract.Station.Y)));
                     station.setMobileCode(cursor.getString(
                             cursor.getColumnIndex(DatabaseContract.Station.MOBILE_NO)));

@@ -1,10 +1,13 @@
 package com.douncoding.busnotifier.fragment;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import com.douncoding.busnotifier.data.repository.RouteRepository;
 import com.douncoding.busnotifier.presenter.SearchContract;
 import com.douncoding.busnotifier.presenter.SearchPresenter;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,25 +51,21 @@ public class SearchFragment extends BaseFragment implements SearchContract.View 
         return fragment;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        // 검색목록을 위한 객체 생성
-        mLayoutManager = new LinearLayoutManager(context);
-        mAdapter = new SearchResultAdapter();
-
-        // 매개변수 가져오기 및 프리젠터 생성
-        String route = getArguments().getString(PARAMS_ROUTE_NAME);
-        mPresenter = new SearchPresenter(this, route, RouteRepository.getInstance(context));
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_serach, container, false);
         ButterKnife.bind(this, view);
 
+        // 검색목록을 위한 객체 생성
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new SearchResultAdapter();
+
+        // 매개변수 가져오기 및 프리젠터 생성
+        String route = getArguments().getString(PARAMS_ROUTE_NAME);
+        mPresenter = new SearchPresenter(this, route, RouteRepository.getInstance(getActivity()));
+
+        // 리스트 뷰 설정
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -116,7 +116,7 @@ public class SearchFragment extends BaseFragment implements SearchContract.View 
             public void onClick(View view) {
                 Route route = mSearchList.get(getPosition());
                 if (route != null) {
-                    Navigator.navigateToRoute(getContext(), route, RouteActivity.FROM_SEARCH);
+                    Navigator.navigateToRoute(getActivity(), route, RouteActivity.FROM_SEARCH);
                 } else {
                     throw new RuntimeException("Route 객체를 찾을 수 없습니다.");
                 }

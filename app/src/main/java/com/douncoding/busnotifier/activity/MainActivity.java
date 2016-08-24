@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity
 
         setupActionBar();
         if (savedInstanceState == null) {
-            addFragment(R.id.fragment_container, new MainFragment());
+            addFragment(R.id.fragment_container, false, new MainFragment());
         }
     }
 
@@ -75,8 +75,7 @@ public class MainActivity extends BaseActivity
         mSearchView.setOnListener(new SearchView.OnListener() {
             @Override
             public void onSearchClick(View view, String target) {
-                addFragment(R.id.fragment_container, SearchFragment.getInstance(target));
-
+                addFragment(R.id.fragment_container, true, SearchFragment.getInstance(target));
                 // 버튼 선택 시 키보드 제거
                 invisibleVirtualKeyboard();
             }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import com.douncoding.busnotifier.Constant;
 import com.douncoding.busnotifier.R;
 
+import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
@@ -33,8 +34,27 @@ public class MapsActivity extends BaseActivity implements MapView.CurrentLocatio
     MapView mMapView;
 
     MapReverseGeoCoder mReverseGeoCoder;
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, MapsActivity.class);
+    // 현재 위치 추적 모드 (내위치)
+    public static final int TRACKING_TYPE = 0;
+    // 중심점 설정 모드 (정류장 위치)
+    public static final int MARKER_TYPE = 1;
+    private static final String TRACKING_ACTION = "MAPS_TRACKING_ACTION"; // type == 0
+    private static final String MARKER_ACTION = "MAPS_MARKER_ACTION"; // type == 1
+    private static final String EXTRA_PARAMS_X = "MAPS_EXTRA_PARAMS_X";
+    private static final String EXTRA_PARAMS_Y = "MAPS_EXTRA_PARAMS_Y";
+
+    public static Intent getCallingIntent(Context context, int type, double x, double y) {
+        Intent intent = new Intent(context, MapsActivity.class);
+
+        if (type == TRACKING_TYPE) {
+            intent.setAction(TRACKING_ACTION);
+        }  else if (type == MARKER_TYPE){
+            intent.setAction(MARKER_ACTION);
+            intent.putExtra(EXTRA_PARAMS_X, x);
+            intent.putExtra(EXTRA_PARAMS_Y, y);
+        }
+
+        return intent;
     }
 
     @Override
@@ -44,11 +64,28 @@ public class MapsActivity extends BaseActivity implements MapView.CurrentLocatio
         ButterKnife.bind(this);
 
         MapView.setMapTilePersistentCacheEnabled(true);
-
         mMapView.setDaumMapApiKey(Constant.DAUM_MAPS_ANDROID_APP_API_KEY);
-        mMapView.setHDMapTileEnabled(true);
-        mMapView.setCurrentLocationEventListener(this);
-        mMapView.setMapViewEventListener(this);
+
+        if (getIntent().getAction().equals(MARKER_ACTION)) {
+            double x = getIntent().getDoubleExtra(EXTRA_PARAMS_X, 0);
+            double y = getIntent().getDoubleExtra(EXTRA_PARAMS_Y, 0);
+            mMapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(y, x), true);
+            mMapView.setZoomLevel(-1, true);
+
+            MapPOIItem marker = new MapPOIItem();
+            MapPoint point = MapPoint.mapPointWithGeoCoord(y,x);
+            marker.setItemName("정류장 위치");
+            marker.setTag(0);
+            marker.setMapPoint(point);
+            marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+            marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+            mMapView.addPOIItem(marker);
+
+        } else {
+            mMapView.setHDMapTileEnabled(true);
+            mMapView.setCurrentLocationEventListener(this);
+            mMapView.setMapViewEventListener(this);
+        }
     }
 
     @Override

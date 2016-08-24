@@ -31,8 +31,8 @@ import butterknife.ButterKnife;
  * 3. 최근 검색내역
  */
 public class MainFragment extends BaseFragment {
-    @BindView(R.id.near_station_view)
-    NearStationView mNearStationView;
+//    @BindView(R.id.near_station_view)
+//    NearStationView mNearStationView;
 
     @BindView(R.id.recent_search_log_view)
     RecentSearchLogView mRecentSearchLogView;
@@ -51,15 +51,8 @@ public class MainFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
 
-        // 주변 정류소 클릭
-        mNearStationView.setOnListener(new NearStationView.OnListener() {
-            @Override
-            public void onContainerClick(View view) {
-                showMessage("구현중입니다..");
-            }
-        });
 
-        // 최근 검색목록 클릭 이벤트
+        // 최근 검색목록 중 아이템 클릭
         mRecentSearchLogView.setOnListener(new RecentSearchLogView.OnListener() {
             @Override
             public void onBookmarkClick(View view, Route route) {
@@ -72,6 +65,7 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+        // 북마크 리스트 목록 중 아이템 선택
         mBookmarkListView.setOnListener(new BookmarkListView.OnListener() {
             @Override
             public void onItemClicked(View view, Route route) {
@@ -85,6 +79,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        // 이전화면으로 돌아오는 경우 화면 갱신
         mBookmarkListView.update();
         mRecentSearchLogView.update();
     }

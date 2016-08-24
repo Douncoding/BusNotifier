@@ -8,10 +8,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.douncoding.busnotifier.view.NearStationView
-            android:id="@+id/near_station_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--<com.douncoding.busnotifier.view.NearStationView-->
+            <!--android:id="@+id/near_station_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
 
         <com.douncoding.busnotifier.view.BookmarkListView
             android:id="@+id/bookmark_view"

@@ -12,8 +12,8 @@ public class Station {
     String name;
     int idCenter;
     String isCenter;
-    float x;
-    float y;
+    double x;
+    double y;
     String regionName;
     String mobileCode;
     String districtCode;
@@ -50,19 +50,19 @@ public class Station {
         this.isCenter = isCenter;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 

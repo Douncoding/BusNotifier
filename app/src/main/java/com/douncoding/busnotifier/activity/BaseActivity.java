@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.douncoding.busnotifier.Navigator;
@@ -26,10 +27,13 @@ public class BaseActivity extends AppCompatActivity {
                 , Toast.LENGTH_SHORT).show();
     }
 
-    protected void addFragment(int containerViewId, Fragment fragment) {
+    protected void addFragment(int containerViewId, boolean push, Fragment fragment) {
         FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
         fragmentTransaction.add(containerViewId, fragment);
-        fragmentTransaction.addToBackStack(null);
+
+        if (push) {
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
     }
 }

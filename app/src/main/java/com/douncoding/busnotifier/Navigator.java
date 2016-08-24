@@ -17,9 +17,22 @@ public class Navigator {
 
     public Navigator() {}
 
+    /**
+     * 중심점이 설정된 맵뷰 호출
+     * @param context 컨텍스트
+     * @param x 위도
+     * @param y 경도
+     */
+    public void navigateToMapsWithMarker(Context context, double x, double y) {
+        if (context != null) {
+            Intent intent = MapsActivity.getCallingIntent(context, MapsActivity.MARKER_TYPE, x, y);
+            context.startActivity(intent);
+        }
+    }
+
     public void navigateToMaps(Context context) {
         if (context != null) {
-            Intent intent = MapsActivity.getCallingIntent(context);
+            Intent intent = MapsActivity.getCallingIntent(context, MapsActivity.TRACKING_TYPE, 0, 0);
             context.startActivity(intent);
         }
     }

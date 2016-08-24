@@ -36,8 +36,9 @@ public class BookmarkRepository extends BaseRepository<Route> {
 
 
     public boolean isContain(int routeId) {
-        String SELECT_SQL = String.format(Locale.KOREA, "SELECT count(*) FROM %s WHERE %s = %d",
-                TABLE_NAME, DatabaseContract.Bookmark.BOOKMARK_ID, routeId);
+        String SELECT_SQL = String.format(Locale.KOREA, "SELECT count(*) FROM %s WHERE %s = %d and %s = %d",
+                TABLE_NAME, DatabaseContract.Bookmark.BOOKMARK_ID, routeId,
+                DatabaseContract.Bookmark.FLAG, TYPE_BOOKMARK);
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(SELECT_SQL, null);
